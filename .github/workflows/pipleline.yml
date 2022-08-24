@@ -32,4 +32,5 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'fast-tundra-64726' #Must be unique in Heroku
-          heroku_email: 'nothros666@gmail.com'          
+          heroku_email: 'nothros666@gmail.com'
+          healthcheck: "https://fast-tundra-64726.herokuapp.com/health"
