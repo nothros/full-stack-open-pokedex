@@ -3,3 +3,4 @@ node_modules/
 dist/
 cypress/
 cypress.config.js
+exercise1.md
