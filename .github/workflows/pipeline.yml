@@ -38,3 +38,16 @@ jobs:
           heroku_app_name: 'fast-tundra-64726' #Must be unique in Heroku
           heroku_email: 'nothros666@gmail.com'
           healthcheck: "https://fast-tundra-64726.herokuapp.com/health"
+      tag_release:
+          if: ${{ (github.event_name == 'push') }}
+          needs: [simple_deployment_pipeline]
+          runs-on: ubuntu-20.04
+          steps:
+            - uses: actions/checkout@v2
+              with:
+                fetch-depth: '0'
+            - name: Bump version and push tag
+              uses: anothrNick/github-tag-action@1.36.0
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                DEFAULT_BUMP: patch
