@@ -32,13 +32,12 @@ jobs:
           wait-on: 'http://localhost:5000'
       - name: deploy
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
-        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: 'fast-tundra-64726' #Must be unique in Heroku
+          heroku_app_name: 'fast-tundra-64726'
           heroku_email: 'nothros666@gmail.com'
           healthcheck: "https://fast-tundra-64726.herokuapp.com/health"
-
           
     tag_release:
       if: ${{ (github.event_name == 'push') && !contains(join(github.event.commits.*.message), '#skip') }}
