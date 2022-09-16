@@ -55,7 +55,6 @@ jobs:
             severity: error
             details: Test Failed!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-              
           
     tag_release:
       if: ${{ (github.event_name == 'push') && !contains(join(github.event.commits.*.message), '#skip') }}
