@@ -38,6 +38,24 @@ jobs:
           heroku_app_name: 'fast-tundra-64726'
           heroku_email: 'nothros666@gmail.com'
           healthcheck: "https://fast-tundra-64726.herokuapp.com/health"
+
+
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+            severity: info
+            details: Test Succeeded!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+            severity: error
+            details: Test Failed!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+
     
     
   tag_release:  
