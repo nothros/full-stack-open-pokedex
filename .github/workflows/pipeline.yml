@@ -8,6 +8,8 @@ on:
     branches: [master]
     types: [opened, synchronize]
 
+
+
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
@@ -39,7 +41,6 @@ jobs:
           heroku_email: 'nothros666@gmail.com'
           healthcheck: "https://fast-tundra-64726.herokuapp.com/health"
 
-
       - name: Test Success
         uses: rjstone/discord-webhook-notify@v1
         if: success()
@@ -54,20 +55,18 @@ jobs:
             severity: error
             details: Test Failed!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-
-
+          
+    tag_release:
+      if: ${{ (github.event_name == 'push') && !contains(join(github.event.commits.*.message), '#skip') }}
+      needs: [simple_deployment_pipeline]
+      runs-on: ubuntu-20.04
+      steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: '0'
+        - name: Bump version and push tag
+          uses: anothrNick/github-tag-action@1.36.0
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            DEFAULT_BUMP: patch
     
-    
-  tag_release:  
-    if: ${{ (github.event_name == 'push') }}
-    needs: [simple_deployment_pipeline]
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: '0'
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.36.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
